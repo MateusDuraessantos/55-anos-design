@@ -17,12 +17,20 @@ export default {
 </script>
 
 <style>
+/* @font-face {
+  font-family: "Avenir";
+  src: url("../public/avenir/AvenirLTStd-Black.otf") format("woff2"),
+  url("../public/avenir/AvenirLTStd-Medium.otf") format("woff");
+  font-weight: 400;
+  font-style: normal;
+} */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 html {
   scroll-behavior: smooth;
 }
 * {
   font-family: "Poppins", sans-serif;
+  /* font-family: "Avenir", system-ui, sans-serif; */
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -78,6 +86,11 @@ body {
 .background__gradient {
   background-image: linear-gradient(90deg, var(--yellow), var(--orange), var(--pink), var(--purple), var(--blue));
 }
+.g-h1 {
+  line-height: 110%;
+  font-size: 80px;
+  font-weight: 400;
+} 
 /* Botões */
 .blue_btn,
 .red_btn,
@@ -258,7 +271,11 @@ filter:focus {
   .max__width {
     width: calc(100% - 40px);
   }
+  .g-h1 {
+    font-size: 40px;
+  }
 }
+
 @media only screen and (max-width: 750px) {
   .aulas__title {
     margin-bottom: 27px;

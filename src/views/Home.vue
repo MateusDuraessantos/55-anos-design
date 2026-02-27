@@ -109,7 +109,7 @@
     <section class="linha" id="linha-do-tempo">
 
       <div class="linha__width">
-        <h1 class="linha__h1">55 anos que estão marcados na história</h1>
+        <h1 class="g-h1">55 anos que estão marcados na história</h1>
 
         <p class="linha__text">Ao longo dos anos, nosso curso evoluiu, inovou e formou gerações de profissionais. Esta linha do tempo celebra cada conquista, marco e transformação que construíram nossa história e fortalecem nosso compromisso com o futuro.</p>
       </div>
@@ -140,13 +140,16 @@
 
 <script>
 import Banner from '@/components/home/Banner.vue'
+import { linkForms, linkedin, instagram } from '@/constants/variables.js'
 
 export default {
   name: 'Home',
   components: { Banner },
   data() {
     return {
-      linkForms: '#'
+      linkForms: linkForms,
+      linkedin: linkedin,
+      instagram: instagram,
     }
   },
   
@@ -269,11 +272,6 @@ export default {
 .mackenzie__arrow {
   margin: auto;
 }
-.linha__h1 {
-  line-height: 110%;
-  font-size: 96px;
-  font-weight: 400;
-}
 /* gente */
 .gente {
   display: flex;
@@ -364,7 +362,7 @@ export default {
   .linha__width, .sobre__width {
     width: calc(100% - 40px);
   }
-  .linha__h1 {
+  .g-h1 {
     font-size: 40px;
   }
   .linha__text {

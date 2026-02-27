@@ -11,8 +11,8 @@
 
         <div class="flex__column">
           <strong>Redes sociais</strong>
-          <a href="">Linkedin</a>
-          <a href="">@Instagram</a>
+          <a :href="linkedin" target="_blank">Linkedin</a>
+          <a :href="instagram" target="_blank">@Instagram</a>
         </div>
 
         <div class="flex__column">
@@ -25,9 +25,12 @@
       
         <div class="flex__column">
           <strong>Menu</strong>
-          <a href="">Sobre</a>
-          <a href="">Livro 55 anos</a>
-          <a href="">Linha do tempo</a>
+          <router-link to="/" class="flex__column">
+            <a class="header__a" @click="scrollToSection('sobre')">Sobre</a>
+            <a class="header__a" @click="scrollToSection('livro-55-anos')">Livro 55 anos</a>
+            <a class="header__a" @click="scrollToSection('linha-do-tempo')">Linha do tempo</a>
+            <a class="header__a" @click="scrollToSection('participe')">Participe</a>
+          </router-link>
         </div>
 
 
@@ -45,8 +48,18 @@
 </template>
 
 <script>
+import { linkedin, instagram } from '@/constants/variables.js'
+import { scrollToSection } from '@/communs/scripts'
+
 export default {
-  name: 'Footer'
+  name: 'Footer',
+  data() {
+    return {
+      linkedin: linkedin,
+      instagram: instagram,
+      scrollToSection: scrollToSection,
+    }
+  }
 }
 </script>
 
@@ -89,7 +102,6 @@ footer a:hover {
   align-self: flex-start;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 40px;
-  max-width: 400px;
 }
 .footer__grafismo {
   width: 100%;

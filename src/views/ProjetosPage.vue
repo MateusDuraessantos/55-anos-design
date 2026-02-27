@@ -1,6 +1,8 @@
 <template>
   <div class="body">
 
+    <Banner />
+
     <div class="popup" v-if="showPopup">
       <Popup
         :projectsIndex="projectsIndex"
@@ -39,10 +41,11 @@
 <script>
 import { projects } from '@/constants/projectsInfos.js'
 import Popup from '@/components/projetos/Popup.vue'
+import Banner from '@/components/projetos/Banner.vue'
 
 export default {
   name: 'ProjetosPage',
-  components: { Popup }, 
+  components: { Popup, Banner }, 
   data() {
     return {
       imagesNumber: 0,
@@ -332,32 +335,26 @@ h6 {
   .container_user {
     display: none;
   }
-  .projectName {
-    padding: 0 10px;
-  }
   h1 {
     margin: 0;
     text-align: center;
     font-size: 60px;
   }
-
   .projeto {
     margin: 0;
+    border-radius: 0;
+    height: 44vw;
   }
-}
-
-/* Mobile */
-
-@media only screen and (max-width: 500px) {
   .projectName {
     display: none;
+    padding: 0 10px;
   }
   .container-projetos {
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 4px;
+    gap: 1px;
   }
   .body {
-    width: calc(100% - 12px);
+    width: 100%;
   }
 }
 </style>

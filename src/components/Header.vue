@@ -34,10 +34,13 @@
 </template>
 
 <script>
+import { scrollToSection } from '@/communs/scripts'
+
 export default {
   name: 'Header',
   data() {
     return {
+      scrollToSection: scrollToSection
     }
   },
   methods: {
@@ -64,17 +67,7 @@ export default {
         }, 400);
       }
     },
-
-    //Leva o usuário até o link clicado
-    scrollToSection(ancora) {
-      setTimeout(() => {
-        const section = document.getElementById(ancora);
-        window.scrollTo({
-          top: section.offsetTop,
-          behavior: 'smooth',
-        })
-      }, 50);
-    },
+    
   }
 }
 </script>

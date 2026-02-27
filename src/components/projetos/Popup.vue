@@ -5,6 +5,15 @@
       <span>carregando</span>
       <div class="popup__load"></div>
     </div>
+    <!-- Layout -->
+    <div class="popup__buttons">
+      <div class="layout" @click="square">
+        <div class="layout__container" id="layout">
+          <div class="square" v-for="obj in buttonSquares" />
+        </div>
+        <p class="layout__text">Mudar Layout</p>
+      </div>
+    </div>
 
     <button class="popup__close" @click="closePopup">✕</button>
 
@@ -26,23 +35,13 @@
 
       <div class="popup__content popup--animation">
 
-        <!-- Layout -->
-        <div class="popup__buttons">
-          <div class="layout" @click="square">
-            <div class="layout__container" id="layout">
-              <div class="square" v-for="obj in buttonSquares" />
-            </div>
-            <p class="layout__text">Mudar Layout</p>
-          </div>
-        </div>
-
         <div class="popup__header">
           <span>
             <p class="font-light">5° Semestre</p>
             <div class="popup__title">
-              <h5>
+              <h2 class="popup__h2">
                 {{ currentProject.name }}
-              </h5>
+              </h2>
               <tag type="white">
                 {{ currentProject.categoria }}
               </tag>
@@ -104,9 +103,9 @@
             </div>
             <div class="popup__about">
               <h6>Laboratórios utilizados</h6>
-              <li class="font-light">Impressão</li>
-              <li class="font-light">Vidro</li>
-              <li class="font-light">Marcenaria</li>
+              <li class="popup__tags font-light">Impressão</li>
+              <li class="popup__tags font-light">Vidro</li>
+              <li class="popup__tags font-light">Marcenaria</li>
               <br>
               <h6>Palavras chave</h6>
               <div class="grid__tags">
@@ -361,7 +360,6 @@ export default {
 .font-light {
   font-weight: 400;
   color: var(--gray_00);
-  margin-left: 20px;
 }
 hr {
   border-width: 1px 0 0 0;
@@ -417,12 +415,12 @@ hr {
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-  padding-right: 40px;
-  top: 40px;
+  top: 70px;
+  left: 0;
   right: 0;
   gap: 46px;
   margin: auto;
-  transform: translateX(200px);
+  width: calc(100% - 100px);
   white-space: nowrap;
   z-index: 3;
 }
@@ -490,8 +488,9 @@ hr {
   gap: 14px;
   align-items: center;
 }
-.popup__title h5 {
+.popup__h2 {
   font-weight: 500;
+  font-size: 32px;
 }
 .popup__footer {
   display: grid;
@@ -504,6 +503,9 @@ hr {
   border: 1px solid var(--white_01);
   padding: 30px;
   border-radius: 22px;
+}
+.popup__tags {
+  margin-left: 24px;
 }
 .popup__cards {
   display: grid;
@@ -592,9 +594,6 @@ hr {
   .popup__content {
     width: calc(100% - 120px);
   }
-  .popup__buttons {
-    transform: translate(0);
-  }
   .layout__text {
     color: var(--black);
   }
@@ -603,6 +602,10 @@ hr {
   }
   .layout {
     gap: 6px;
+  }
+  .popup__buttons {
+    top: 82px;
+    width: calc(100% - 174px);
   }
 }
 @media only screen and (max-width: 700px) {
