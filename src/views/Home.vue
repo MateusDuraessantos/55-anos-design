@@ -60,7 +60,7 @@
 
 
     <!-- Livro 55 anos -->
-    <el-carousel   height="500px" id="livro-55-anos">
+    <el-carousel height="500px" id="livro-55-anos" :interval="5000">
       <el-carousel-item class="carrossel-1">
         <div class="max__width">
           <h3>Título do livro</h3>
@@ -69,18 +69,21 @@
           </p>
           <button class="">Alguma ação</button>
         </div>
+    
       </el-carousel-item>
-        <div class="max__width">
-          <p>Ao longo dos anos, nosso curso construiu uma trajetória marcada por inovação, dedicação e transformação. Cada etapa dessa linha do tempo representa não apenas conquistas acadêmicas, mas histórias de alunos, professores e projetos que ajudaram a moldar nossa identidade. Da sua criação aos dias atuais, acompanhamos a evolução das metodologias, das estruturas e das oportunidades oferecidas, sempre com o compromisso de formar profissionais preparados para os desafios do futuro. Celebrar este aniversário é reconhecer o caminho percorrido e renovar o propósito de continuar crescendo, aprendendo e inspirando novas gerações.</p>
-        </div>
-      <el-carousel-item>
 
+      <el-carousel-item>
+        <div class="max__width">
+          <p>
+            Ao longo dos anos, nosso curso construiu uma trajetória marcada por inovação, dedicação e transformação. Cada etapa dessa linha do tempo representa não apenas conquistas acadêmicas, mas histórias de alunos, professores e projetos que ajudaram a moldar nossa identidade. Da sua criação aos dias atuais, acompanhamos a evolução das metodologias, das estruturas e das oportunidades oferecidas, sempre com o compromisso de formar profissionais preparados para os desafios do futuro. Celebrar este aniversário é reconhecer o caminho percorrido e renovar o propósito de continuar crescendo, aprendendo e inspirando novas gerações.
+          </p>
+        </div>
       </el-carousel-item>
 
     </el-carousel>
 
     <!--  -->
-    <el-carousel height="600px">
+    <el-carousel height="600px" :interval="4000">
       
       <el-carousel-item class="carrossel-3">
           <div class="max__width">
@@ -136,7 +139,7 @@
 </template>
 
 <script>
-import Banner from '../components/home/Banner.vue'
+import Banner from '@/components/home/Banner.vue'
 
 export default {
   name: 'Home',
@@ -166,6 +169,7 @@ export default {
 }
 .sobre__grafismo {
   position: absolute;
+  width: min(14vw, 160px);
 }
 .sobre__width {
   max-width: 1000px;
@@ -275,7 +279,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 600px;
+  padding: 100px 0;
 }
 .gente__col_1 {
   display: flex;
@@ -347,11 +351,31 @@ export default {
     align-items: flex-start;
     gap: 0;
   }
-  
   .mackenzie__isso {
     font-size: 12vw;
   } 
-  
+}
+@media screen and (max-width: 1000px) {
+  .mackenzie {
+    gap: 40px;
+    height: max-content;
+  }
+  .linha__width, .sobre__width {
+    width: calc(100% - 40px);
+  }
+  .linha__h1 {
+    font-size: 40px;
+  }
+  .linha__text {
+    font-size: 18px;
+  }
+  .gente, .gente__col_1 {
+    flex-direction: column;
+  }
+  .gente {
+    gap: 40px;
+    height: max-content;
+  }
 }
 
 </style>

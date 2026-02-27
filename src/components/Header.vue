@@ -51,10 +51,7 @@ export default {
     },
     //Ativa o menu lateral mobile
     close(event) {
-      console.log('close');
-      
       const nav = document.getElementById('navMenu')
-
       const elementClicked = event.target.classList[0]
 
       if (nav.classList[1] == undefined) nav.classList.add('ativar')

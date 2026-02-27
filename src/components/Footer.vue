@@ -99,4 +99,12 @@ footer a:hover {
   height: 5px;
   width: 100%;
 }
+
+@media screen and (max-width: 1000px) {
+  .footer__grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
 </style>
