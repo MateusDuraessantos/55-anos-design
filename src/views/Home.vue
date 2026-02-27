@@ -280,6 +280,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 100px 0;
+  height: 660px;
 }
 .gente__col_1 {
   display: flex;

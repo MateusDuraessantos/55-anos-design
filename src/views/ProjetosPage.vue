@@ -123,6 +123,11 @@ export default {
   padding: 6px 11px;
   border: 1px solid var(--white_01);
 }
+@media only screen and (max-width: 500px) {
+  [type="white"] {
+    padding: 2px 12px;
+  }
+}
 </style>
 
 <style>
@@ -299,14 +304,6 @@ h6 {
   }
 }
 
-@media only screen and (max-width: 1980px) {
-  .description {
-    display: flex;
-    flex-direction: column;
-    gap: 38px;
-  }
-}
-
 @media only screen and (max-width: 1800px) {
   .container-projetos {
     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -320,14 +317,6 @@ h6 {
 }
 
 @media only screen and (max-width: 1000px) {
-  #next button,
-  #back button {
-    width: 32px;
-    height: 32px;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-  }
-  /*  */
   .body {
     width: calc(100% - 26px);
   }
@@ -338,52 +327,8 @@ h6 {
     margin: 0;
     height: 30vw;
   }
-  /* Alteração do popup */
-  .popup__container {
-    width: calc(100% - 120px);
-  }
-  .popup__close {
-    text-shadow: 2px 2px 2px black;
-  }
-  #grid {
-    grid-template-columns: 1fr;
-  }
-  .description {
-    column-count: 1;
-  }
-  .grid__criadores {
-    grid-template-columns: 1fr 1fr;
-  }
-  .popup {
-    display: flex;
-    justify-content: center;
-  }
-  .projectName {
-    opacity: 1;
-  }
-  h1 {
-    position: absolute;
-    top: 124px;
-  }
-  .popup_buttons {
-    width: calc(100% - 500px);
-  }
-  filter {
-    padding: 2px 15px;
-    max-width: max-content;
-  }
 }
 @media only screen and (max-width: 700px) {
-  .popup_buttons {
-    display: none;
-  }
-  .popup__container {
-    width: calc(100% - 20px);
-  }
-  .container__footer {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
   .container_user {
     display: none;
   }
@@ -395,23 +340,9 @@ h6 {
     text-align: center;
     font-size: 60px;
   }
-  .popup__overflow {
-    padding: 0;
-  }
-  .popup__container {
-    width: 100%;
-    margin: 0;
-  }
-  .cont_description,
-  .footer__popup,
-  header-popup {
-    padding: 10px
-  }
+
   .projeto {
     margin: 0;
-  }
-  .vitrine-grid {
-    grid-template-columns: 1fr !important;
   }
 }
 
@@ -427,24 +358,6 @@ h6 {
   }
   .body {
     width: calc(100% - 12px);
-  }
-
-  [type="white"] {
-    padding: 2px 12px;
-  }
-  .criadores__container {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-  .description {
-    margin: 0 0 20px 0;
-  }
-
-  header-popup {
-    gap: 0;
-  }
-  .popup__container {
-    max-width: 100%;
   }
 }
 </style>

@@ -9,84 +9,80 @@
     <button class="popup__close" @click="closePopup">✕</button>
 
     <div class="popup__overflow">
-      <div class="popup_buttons">
-        <!-- Layout -->
-
-        <div class="layout" @click="square">
-          <div class="layout__container" id="layout">
-            <div class="square" v-for="coisa in coisas" />
-          </div>
-          <p class="layout__text">Mudar Layout</p>
-        </div>
-      </div>
 
       <!-- Passar e voltar -->
-
       <div class="pass" v-if="passImagens">
 
-        <div class="pass__container" v-if="showButton_next" id="next">
-          <button @click="trocarProjeto('next')" class="reload next"></button>
-          <p>→</p>
+        <div class="pass__container popup__next" v-if="showButton_next">
+          <button class="popup__next--btn reload next" @click="trocarProjeto('next')"></button>
+          <p class="popup__arrow">→</p>
         </div>
 
-        <div class="pass__container" v-if="showButton_back" id="back">
-          <button @click="trocarProjeto('back')" class="reload back"></button>
-          <p>←</p>
+        <div class="pass__container popup__back" v-if="showButton_back">
+          <button class="popup__next--btn reload back" @click="trocarProjeto('back')"></button>
+          <p class="popup__arrow">←</p>
         </div>
       </div>
 
-      <!--  -->
+      <div class="popup__content popup--animation">
 
-      <div class="popup__container popup--animation" id="popup__container">
-        <header-popup>
+        <!-- Layout -->
+        <div class="popup__buttons">
+          <div class="layout" @click="square">
+            <div class="layout__container" id="layout">
+              <div class="square" v-for="obj in buttonSquares" />
+            </div>
+            <p class="layout__text">Mudar Layout</p>
+          </div>
+        </div>
+
+        <div class="popup__header">
           <span>
             <p class="font-light">5° Semestre</p>
-            <div class="title-popup">
+            <div class="popup__title">
               <h5>
                 {{ currentProject.name }}
               </h5>
               <tag type="white">
-                <span v-for="portfolio in currentProject.categoria">{{ portfolio }}</span>
+                {{ currentProject.categoria }}
               </tag>
             </div>
           </span>
-        </header-popup>
+        </div>
 
         <!-- Vitrine das imagens -->
 
-        <div class="vitrine-grid" ref="grid">
+        <div class="popup__vitrine" ref="grid">
 
         </div>
 
         <!-- Descrições -->
 
-        <div class="cont_description">
-          <div class="description">
-            <span>
-              <p v-for="teste in currentProject.description">
-                &nbsp;&nbsp;{{ teste }}
-                <br>
-                <br>
-              </p>
-            </span>
+        <div class="popup__description">
+          <div class="popup__text">
+            <p v-for="teste in currentProject.description">
+              &nbsp;&nbsp;{{ teste }}
+              <br>
+              <br>
+            </p>
 
             <!-- Download -->
 
             <div class="download">
               <div class="download__bubble">
-                <img class="download__img" src="/projetos/download.svg">
+                <img class="download__img" src="/projetos/download.svg" height="30" width="30">
               </div>
               <p>Relatório final</p>
             </div>
           </div>
-          <div class="container__footer">
-            <div class="footer__popup">
+          <div class="popup__footer">
+            <div class="popup__about">
               <h6>Alunos designers projetistas</h6>
-              <div class="grid__criadores">
-                <div class="criadores" v-for="userInfos in currentProject.owner">
-                  <div class="criadores__container">
-                    <img class="grid__criadores__imgs" :src="'projetos/' + userInfos.userFoto" />
-                    <p class="criadores__name">{{ userInfos.name }}</p>
+              <div class="popup__cards">
+                <div class="popup__card" v-for="userInfos in currentProject.owner">
+                  <div class="popup__ctn">
+                    <img class="popup__person" :src="'projetos/' + userInfos.userFoto" width="50" height="50" />
+                    <p class="popup__criador">{{ userInfos.name }}</p>
                   </div>
                   <div class="redes__sociais">
                     <a v-for="medias in userInfos.socialMedia" :href="medias.link" target="_blank">{{
@@ -106,7 +102,7 @@
                 </p>
               </div>
             </div>
-            <div class="footer__popup">
+            <div class="popup__about">
               <h6>Laboratórios utilizados</h6>
               <li class="font-light">Impressão</li>
               <li class="font-light">Vidro</li>
@@ -140,7 +136,7 @@ export default {
       projects: projects,
       popupValue: false,
       indexPopup: 0,
-      coisas: 4,
+      buttonSquares: 4,
       maxItems: 60,
       passImagens: true,
       showGrid: true,
@@ -175,6 +171,15 @@ export default {
       if (toWhere == 'back') this.indexPopup--
       this.$emit('refreshPopup', this.indexPopup)
     },
+    adicionarImgAtributos(path) {
+      const img = document.createElement('img')
+      img.width = 500
+      img.height = 500
+      img.alt = '500'
+      img.src = `projetos/${path}`
+      
+      return img
+    },
     criaColunas() {
       const grid = this.$refs.grid
       
@@ -185,23 +190,20 @@ export default {
       if (this.currentProject.portfolios.length > 1) {
         const column0 = document.createElement('div')
         const column1 = document.createElement('div')
-        column0.classList.add('vitrine-count')
-        column1.classList.add('vitrine-count')
+        column0.classList.add('popup__column')
+        column1.classList.add('popup__column')
 
         this.currentProject.portfolios.forEach((src, index) => {
-
-          const img = document.createElement('img')
-          img.src = `projetos/${src}`
           
+          const img = this.adicionarImgAtributos(src)
+
           if (index % 2 === 0) column0.appendChild(img)
           else column1.appendChild(img)
         })
-        
-        grid.appendChild(column0)
-        grid.appendChild(column1)
+
+        grid.append(column0, column1)
       } else {
-        const img = document.createElement('img')
-        img.src = `projetos/${this.currentProject.portfolios[0]}`
+        const img = this.adicionarImgAtributos(this.currentProject.portfolios[0])
         grid.appendChild(img)
       }
     },
@@ -213,11 +215,11 @@ export default {
       if (grid.style.gridTemplateColumns == '1fr 1fr' || grid.style.gridTemplateColumns == '') {
         grid.style.gridTemplateColumns = '1fr'
         layout.style.gridTemplateColumns = '1fr'
-        this.coisas = 2
+        this.buttonSquares = 2
       } else {
         grid.style.gridTemplateColumns = '1fr 1fr'
         layout.style.gridTemplateColumns = '1fr 1fr'
-        this.coisas = 4
+        this.buttonSquares = 4
       }
     },
   }
@@ -226,7 +228,7 @@ export default {
 
 <style>
 /* Grid do popup */
-.vitrine-count {
+.popup__column {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -348,13 +350,24 @@ export default {
   border-radius: 2px;
   transition: .2s;
 }
-.vitrine-grid img {
+.popup__vitrine img {
   object-fit: contain;
+  height: max-content;
   width: 100%;
 }
 </style>
 
 <style scoped>
+.font-light {
+  font-weight: 400;
+  color: var(--gray_00);
+  margin-left: 20px;
+}
+hr {
+  border-width: 1px 0 0 0;
+  border-color: #656565;
+  border-style: solid;
+}
 .popup__overflow {
   padding-top: 50px;
   display: flex;
@@ -365,7 +378,7 @@ export default {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.8);
 }
-.popup__container {
+.popup__content {
   width: 80%;
   position: relative;
   background: var(--white_00);
@@ -381,6 +394,7 @@ export default {
   background: none;
   color: white;
   font-weight: 400;
+  font-size: 30px;
   border: none;
   border-radius: 50%;
   width: 24px;
@@ -388,31 +402,30 @@ export default {
   cursor: pointer;
   z-index: 3;
 }
-header-popup {
+.popup__header {
   display: flex;
   justify-content: space-between;
   gap: 8px;
   padding: 40px;
 }
-.cont_description {
+.popup__description {
   padding: 20px
 }
-.popup_buttons {
+.popup__buttons {
   pointer-events: none;
-  position: fixed;
+  position: absolute;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
   padding-right: 40px;
-  top: 93px;
-  width: calc(100% - 400px);
+  top: 40px;
+  right: 0;
   gap: 46px;
   margin: auto;
   transform: translateX(200px);
   white-space: nowrap;
   z-index: 3;
 }
-
 /* Pass Projetc */
 .pass {
   visibility: hidden;
@@ -425,12 +438,6 @@ header-popup {
   top: 0;
   z-index: 12;
 }
-.pass button {
-  cursor: pointer;
-}
-.pass p {
-  pointer-events: none;
-}
 .pass__container {
   visibility: visible;
   position: absolute;
@@ -438,20 +445,21 @@ header-popup {
   align-items: center;
   justify-content: center;
   color: white;
-}
-#next,
-#back {
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
   border-radius: 50%;
 }
-#next {
-  right: 2vw;
+.popup__arrow {
+  text-shadow: 1px 1px 3px rgb(0, 0, 0, 1);
+  pointer-events: none;
 }
-#back {
-  left: 2vw;
+.popup__next {
+  right: 22px;
 }
-#next button,
-#back button {
+.popup__back {
+  left: 22px;
+}
+.popup__next--btn {
+  cursor: pointer;
   backdrop-filter: blur(12px);
   border-radius: 50%;
   width: 82px;
@@ -459,60 +467,50 @@ header-popup {
   background: rgba(255, 255, 255, 0.1);
   transition: .2s;
 }
-#next p,
-#back p {
+.popup__arrow {
   position: absolute;
 }
-#next:hover button {
+.popup__next:hover button {
   transform: rotate(90deg);
   transition: .3s;
 }
-#back:hover button {
+.popup__back:hover button {
   transform: rotate(-90deg);
   transition: .3s;
 }
 /* Descriçoes' */
-.description {
+.popup__text {
   display: flex;
   align-items: center;
   margin: 20px 0 60px 0;
   font-weight: 400;
 }
-.title-popup {
+.popup__title {
   display: flex;
   gap: 14px;
   align-items: center;
 }
-.title-popup h5 {
+.popup__title h5 {
   font-weight: 500;
 }
-.font-light {
-  font-weight: 400;
-  color: var(--gray_00);
-}
-hr {
-  border-width: 1px 0 0 0;
-  border-color: #656565;
-  border-style: solid;
-}
-.container__footer {
+.popup__footer {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 20px;
   margin-top: 30px;
 }
-.footer__popup {
+.popup__about {
   background: white;
   border: 1px solid var(--white_01);
   padding: 30px;
   border-radius: 22px;
 }
-.grid__criadores {
+.popup__cards {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 14px;
 }
-.criadores {
+.popup__card {
   display: flex;
   flex-direction: column;
   background: #f4f4f4;
@@ -520,16 +518,16 @@ hr {
   padding: 10px;
   border-radius: 8px;
 }
-.criadores__container {
+.popup__ctn {
   display: flex;
   align-items: center;
   gap: 12px;
 }
-.criadores__name {
+.popup__criador {
   font-weight: 400;
   color: var(--gray_00);
 }
-.grid__criadores__imgs {
+.popup__person {
   width: 50px;
   height: 50px;
   object-fit: cover;
@@ -568,12 +566,113 @@ hr {
   color: var(--gray_00);
   font-weight: 400;
 }
-.vitrine-grid {
+.popup__vitrine {
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 100%;
   min-height: 100px;
   margin: auto;
   gap: var(--gap-img);
+}
+@media only screen and (max-width: 1980px) {
+  .popup__text {
+    display: flex;
+    flex-direction: column;
+    gap: 38px;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .popup__next--btn,
+  .popup__next--back {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+  }
+  .popup__content {
+    width: calc(100% - 120px);
+  }
+  .popup__buttons {
+    transform: translate(0);
+  }
+  .layout__text {
+    color: var(--black);
+  }
+  .layout__container {
+    gap: 3px;
+  }
+  .layout {
+    gap: 6px;
+  }
+}
+@media only screen and (max-width: 700px) {
+  .popup__footer {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .projectName {
+    padding: 0 10px;
+  }
+  .popup__buttons {
+    display: none;
+  }
+  .popup__content {
+    margin: 0;
+    width: 100%;
+    border-radius: 0;
+  }
+  .popup__overflow {
+    padding: 0;
+  }
+  .popup__close {
+    text-shadow: 2px 2px 2px black;
+  }
+  #grid {
+    grid-template-columns: 1fr;
+  }
+  .popup__text {
+    column-count: 1;
+  }
+  .popup__cards {
+    grid-template-columns: 1fr 1fr;
+  }
+  .popup {
+    display: flex;
+    justify-content: center;
+  }
+  .projectName {
+    opacity: 1;
+  }
+  .popup__buttons {
+    width: calc(100% - 500px);
+  }
+  filter {
+    padding: 2px 15px;
+    max-width: max-content;
+  }
+  .popup__description,
+  .popup__about,
+  .popup__header {
+    padding: 10px
+  }
+  .popup__vitrine {
+    grid-template-columns: 1fr !important;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .popup__ctn {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .popup__text {
+    margin: 0 0 20px 0;
+  }
+  .popup__header {
+    gap: 0;
+  }
+  .popup__content {
+    max-width: 100%;
+  }
 }
 </style>

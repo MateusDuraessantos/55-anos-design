@@ -89,6 +89,7 @@ footer a:hover {
   align-self: flex-start;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 40px;
+  max-width: 400px;
 }
 .footer__grafismo {
   width: 100%;
@@ -104,7 +105,7 @@ footer a:hover {
   .footer__grid {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
   }
 }
 </style>
