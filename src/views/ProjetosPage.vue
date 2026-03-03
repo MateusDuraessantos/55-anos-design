@@ -16,13 +16,13 @@
 
     <div class="container-projetos">
       <div
-        :class="`projeto categoria__${project.categoria.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')}`"
+        class="projeto"
         v-for="(project, index) in limitedItems"
         :key="index"
         @click="upPopup(index)"
       >
-
-        <img class="projeto_thumb" :src="'projetos/' + project.thumb" loading="lazy">
+        <img class="projeto_thumb" :src="'projetos/' + project.portfolios[0].src" loading="lazy"
+        :alt="project.portfolios[0].alt">
 
         <div class="container_user">
           <div class="user" v-for="ownersv in project.owner">
@@ -30,9 +30,7 @@
             <p class="user_name">{{ ownersv.name }}</p>
           </div>
         </div>
-        <div class="projectName">
-          <p>{{ project.name }}</p>
-        </div>
+        <p class="projectName">{{ project.name }}</p>
       </div>
     </div>
   </div>
@@ -220,7 +218,8 @@ export default {
 }
 .user_name {
   position: absolute;
-  bottom: -24px;
+  top: 100%;
+  right: 8px;
   white-space: nowrap;
   text-align: center;
   opacity: 0;
@@ -249,51 +248,6 @@ export default {
 .projeto:hover .projectName {
   transition: .2s;
   opacity: 1;
-}
-h6 {
-  font-weight: 400;
-  margin-bottom: 18px;
-  font-size: 14px;
-}
-.download {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  white-space: nowrap;
-  padding: 0 100px;
-}
-.download__bubble {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 10px;
-  background: #414141;
-  border-radius: 50%;
-  height: 3.3vw;
-  width: 3.3vw;
-  max-height: 70px;
-  max-width: 70px;
-  min-height: 44px;
-  min-width: 44px;
-  transition: .2s;
-}
-.download:hover .download__bubble {
-  background: #b50009;
-  transition: .2s;
-}
-.download__img {
-  transition: .2s;
-  margin-bottom: 3px;
-  width: 86%;
-}
-.download:hover img {
-  transform: translatey(-4px);
-  transition: .2s;
 }
 @media only screen and (min-width:2001px) {
   .container-projetos {

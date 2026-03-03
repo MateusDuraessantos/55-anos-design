@@ -1,0 +1,33 @@
+nome do projeto: 
+
+imagens do projeto: 
+  1. 
+    nome do arquivo:
+    descrição da imagem:
+
+  2. 
+    Se tiver mais de uma imagem, repetir...
+
+descricao: 
+
+autores:
+  1.
+    nome: 
+    email: 
+    data de formatura: 
+    Redes sociais:
+      plataforma: 
+      link: (Se tiver somente o nome (ex: @mateusduraes) do usuário, buscar link da plataforma)
+    portfolio pessoal: 
+
+    Se tiver mais de uma plataforma, repetir os mesmos dados..
+
+  2.
+    Se tiver mais de um autor, repetir os mesmos dados...
+
+
+empresa envolvida:
+
+dimensões: 
+
+data do projeto: 

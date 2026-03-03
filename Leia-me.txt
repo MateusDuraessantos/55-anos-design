@@ -1,0 +1,28 @@
+Regras para nomeclatura de pastas e arquivo
+
+Não usar
+- Letras maiúsculas
+- Espaços (Apenas underline para separar as palavras)
+- Acentos
+- Caracteres especiais (@, %, &, #, !, ?, etc.)
+- Parênteses
+- Espaços
+- Pontos no meio do nome
+
+Outros
+- Não começar números
+
+✅ Exemplos de nomes validos:
+- daniel_nishiwaki
+- mateus_duraes
+- ana_paula_silva
+- design_mackenzie_55
+- ivopons55design
+- leticia
+
+❌ Exemplos de nomes não validos:
+- Daniel_Nishiwaki (Contém letras maiúsculas)
+- Projeto de design (contém espaços)
+- nome_aletatório (contém acento)
+- projeto-de-luminária (contém acento e traço)
+- 55_mateus_duraes (Começa com número)

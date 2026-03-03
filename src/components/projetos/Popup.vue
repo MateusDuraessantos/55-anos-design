@@ -5,15 +5,6 @@
       <span>carregando</span>
       <div class="popup__load"></div>
     </div>
-    <!-- Layout -->
-    <div class="popup__buttons">
-      <div class="layout" @click="square">
-        <div class="layout__container" id="layout">
-          <div class="square" v-for="obj in buttonSquares" />
-        </div>
-        <p class="layout__text">Mudar Layout</p>
-      </div>
-    </div>
 
     <button class="popup__close" @click="closePopup">✕</button>
 
@@ -37,87 +28,81 @@
 
         <div class="popup__header">
           <span>
-            <p class="font-light">5° Semestre</p>
+            <p class="font-light">Projeto:</p>
             <div class="popup__title">
               <h2 class="popup__h2">
                 {{ currentProject.name }}
               </h2>
-              <tag type="white">
-                {{ currentProject.categoria }}
-              </tag>
             </div>
           </span>
         </div>
 
         <!-- Vitrine das imagens -->
 
-        <div class="popup__vitrine" ref="grid">
-
+        <div class="vitrine">
+          <img class="vitrine__img" v-for="img in currentProject.portfolios" :src="`projetos/${img.src}`" :alt="img.alt">
         </div>
 
         <!-- Descrições -->
 
-        <div class="popup__description">
+        <section class="popup__description">
           <div class="popup__text">
-            <p v-for="teste in currentProject.description">
-              &nbsp;&nbsp;{{ teste }}
-              <br>
-              <br>
-            </p>
+            <p v-html="currentProject.description"></p>
 
-            <!-- Download -->
-
-            <div class="download">
-              <div class="download__bubble">
-                <img class="download__img" src="/projetos/download.svg" height="30" width="30">
-              </div>
-              <p>Relatório final</p>
-            </div>
           </div>
           <div class="popup__footer">
             <div class="popup__about">
-              <h6>Alunos designers projetistas</h6>
+              <h5 class="popup__h5">Autores</h5>
               <div class="popup__cards">
                 <div class="popup__card" v-for="userInfos in currentProject.owner">
                   <div class="popup__ctn">
                     <img class="popup__person" :src="'projetos/' + userInfos.userFoto" width="50" height="50" />
                     <p class="popup__criador">{{ userInfos.name }}</p>
                   </div>
+                  
+                  <p class="popup__criador">{{ userInfos.email }}</p>
+                  <p class="popup__text--formatura">Data de formatura: {{ userInfos.dataFormatura }}</p>
+
                   <div class="redes__sociais">
-                    <a v-for="medias in userInfos.socialMedia" :href="medias.link" target="_blank">{{
-                      medias.plataform }}</a>
+                    <a
+                      v-for="medias in userInfos.socialMedia"
+                      :href="medias.link"
+                      target="_blank"
+                    >
+                      {{ medias.plataform }}
+                    </a>
+                    
                   </div>
+
+                  <div class="popup__portfolio">
+                    <img src="/web.svg" alt="">
+                    <a :href="userInfos.personalPotfolio" target="_blank">Portfólio pessoal</a>
+                  </div>
+
                 </div>
               </div>
-              <div>
-                <br>
-                <hr>
-                <br>
-                <h6>Professores orientadores</h6>
-                <p class="popup__docentes">
-                <p>Prof. Me. Carlos Marcelo Campos Teixeira</p>
-                <p>Prof. Dr. Célio Martins da Matta </p>
-                <p>Profª. Me. Grace Kishimoto</p>
-                </p>
-              </div>
             </div>
-            <div class="popup__about">
-              <h6>Laboratórios utilizados</h6>
-              <li class="popup__tags font-light">Impressão</li>
-              <li class="popup__tags font-light">Vidro</li>
-              <li class="popup__tags font-light">Marcenaria</li>
-              <br>
-              <h6>Palavras chave</h6>
-              <div class="grid__tags">
-                <tag type="black" v-for="portfolio in currentProject.palavrasChave">
-                  {{ portfolio }}
-                </tag>
 
+            <div class="popup__about popup__about--infos">
+              <div>
+                <span v-if="currentProject.empresaEnvolvida">
+                  <h6>Empresa envolvida</h6>
+                  <p class="font-light">{{ currentProject.empresaEnvolvida }}</p>
+                  <br>
+                </span>
+                
+                <span v-if="currentProject.dimensoes">
+                  <h6>Dimensões</h6>
+                  <p class="font-light">{{ currentProject.dimensoes }}</p>
+                </span>
+                
               </div>
-              <p class="data_publi">Publicação: 2 de março de 2022</p>
+              <span v-if="currentProject.data">
+                <p class="data_publi">Publicação: {{ currentProject.data }}</p>
+              </span>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   </div>
@@ -135,16 +120,24 @@ export default {
       projects: projects,
       popupValue: false,
       indexPopup: 0,
-      buttonSquares: 4,
       maxItems: 60,
       passImagens: true,
       showGrid: true,
+      onEsc: null
     }
   },
   mounted() {
     this.indexPopup = this.projectsIndex
     this.bodyScroll(true)
-    this.criaColunas()
+
+    document.querySelector('.popup__overflow').addEventListener('click', (event) => {
+      if (event.target.classList.contains('popup__overflow')) this.closePopup()
+    })
+    
+    this.closeOnEscape()
+  },
+  beforeUnmount() {
+    window.removeEventListener('keydown', this.onEscKeydown)
   },
   computed: {
     currentProject() {
@@ -158,9 +151,16 @@ export default {
     },
   },
   methods: {
+    onEscKeydown(e) {
+      if (e.key === 'Escape') this.closePopup()
+    },
+    closeOnEscape() {
+      window.addEventListener('keydown', this.onEscKeydown)
+    },
     closePopup() {
       this.bodyScroll(false)
       this.$emit('close-popup')
+      window.removeEventListener('keydown', this.closeOnEscape);
     },
     bodyScroll(value) {
       document.body.style.overflow = value ? 'hidden' : ''
@@ -179,60 +179,23 @@ export default {
       
       return img
     },
-    criaColunas() {
-      const grid = this.$refs.grid
-      
-      if (!grid) return
-
-      grid.innerHTML = '' // evita duplicar
-
-      if (this.currentProject.portfolios.length > 1) {
-        const column0 = document.createElement('div')
-        const column1 = document.createElement('div')
-        column0.classList.add('popup__column')
-        column1.classList.add('popup__column')
-
-        this.currentProject.portfolios.forEach((src, index) => {
-          
-          const img = this.adicionarImgAtributos(src)
-
-          if (index % 2 === 0) column0.appendChild(img)
-          else column1.appendChild(img)
-        })
-
-        grid.append(column0, column1)
-      } else {
-        const img = this.adicionarImgAtributos(this.currentProject.portfolios[0])
-        grid.appendChild(img)
-      }
-    },
-
-    square() {
-      const grid = this.$refs.grid
-      const layout = document.getElementById('layout')
-
-      if (grid.style.gridTemplateColumns == '1fr 1fr' || grid.style.gridTemplateColumns == '') {
-        grid.style.gridTemplateColumns = '1fr'
-        layout.style.gridTemplateColumns = '1fr'
-        this.buttonSquares = 2
-      } else {
-        grid.style.gridTemplateColumns = '1fr 1fr'
-        layout.style.gridTemplateColumns = '1fr 1fr'
-        this.buttonSquares = 4
-      }
-    },
   }
 }
 </script>
 
-<style>
-/* Grid do popup */
-.popup__column {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: var(--gap-img);
-  height: max-content;
+<style scoped>
+h6 {
+  font-weight: 500;
+  font-size: 16px;
+}
+.font-light {
+  font-weight: 400;
+  color: var(--gray_00);
+}
+hr {
+  border-width: 1px 0 0 0;
+  border-color: #656565;
+  border-style: solid;
 }
 /* Loading */
 .popup__loading {
@@ -271,12 +234,12 @@ export default {
   from { transform: rotate(0) }
   to { transform: rotate(360deg) }
 }
+/*  */
 .popup--animation {
   animation-name: opacitySuave;
   animation-duration: .6s;
   animation-fill-mode: forwards;
 }
-
 @keyframes opacitySuave {
   0% { opacity: 0 }
   50% {
@@ -288,84 +251,6 @@ export default {
     transform: translatey(0);
   }
 }
-.layout {
-  right: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1px;
-  text-align: center;
-  cursor: pointer;
-  z-index: 2;
-  gap: 16px;
-  pointer-events: initial;
-  animation-name: opacitySuave;
-  animation-duration: 1.3s;
-  animation-fill-mode: forwards;
-}
-.layout__text {
-  color: white;
-}
-.layout__container {
-  animation-name: outraanimacao;
-  animation-duration: 3s;
-  animation-fill-mode: forwards;
-  animation-iteration-count: infinite;
-  margin: auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  justify-content: center;
-  width: 4.6vw;
-  height: 4.6vw;
-  min-height: 34px;
-  max-width: 58px;
-  max-height: 58px;
-  gap: 6px;
-  transition: .2s;
-}
-@keyframes outraanimacao {
-  0% { transform: translatey(0) }
-  70% { transform: translatey(0) }
-  75% { transform: translatey(-3px) }
-  80% { transform: translatey(0) }
-  95% { transform: translatey(-3px) }
-  100% { transform: translatey(0) }
-}
-.layout:hover .square {
-  transition: .2s;
-  background: #b50009;
-}
-.layout:hover .square {
-  transition: .2s;
-  max-height: 70px;
-  transform: translatey(-5px);
-}
-.square {
-  background: #ab0000;
-  padding: 8px;
-  height: 100%;
-  border-radius: 2px;
-  transition: .2s;
-}
-.popup__vitrine img {
-  object-fit: contain;
-  height: max-content;
-  width: 100%;
-}
-</style>
-
-<style scoped>
-.font-light {
-  font-weight: 400;
-  color: var(--gray_00);
-}
-hr {
-  border-width: 1px 0 0 0;
-  border-color: #656565;
-  border-style: solid;
-}
 .popup__overflow {
   padding-top: 50px;
   display: flex;
@@ -375,14 +260,16 @@ hr {
   height: 100vh;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.8);
+  cursor: pointer;
 }
 .popup__content {
   width: 80%;
   position: relative;
   background: var(--white_00);
   margin-bottom: 60px;
-  width: calc(100% - 400px);
+  width: calc(100% - 200px);
   border-radius: 25px;
+  cursor: initial;
 }
 .popup__close {
   position: absolute;
@@ -409,20 +296,16 @@ hr {
 .popup__description {
   padding: 20px
 }
-.popup__buttons {
-  pointer-events: none;
-  position: absolute;
+/* Grid do popup */
+.vitrine {
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-  top: 70px;
-  left: 0;
-  right: 0;
-  gap: 46px;
-  margin: auto;
-  width: calc(100% - 100px);
-  white-space: nowrap;
-  z-index: 3;
+  flex-direction: column;
+  width: 100%;
+}
+.vitrine__img {
+  object-fit: contain;
+  height: max-content;
+  width: 100%;
 }
 /* Pass Projetc */
 .pass {
@@ -483,6 +366,10 @@ hr {
   margin: 20px 0 60px 0;
   font-weight: 400;
 }
+.popup__text--formatura {
+  font-size: 16px;
+  color: var(--black);
+}
 .popup__title {
   display: flex;
   gap: 14px;
@@ -499,13 +386,19 @@ hr {
   margin-top: 30px;
 }
 .popup__about {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   background: white;
   border: 1px solid var(--white_01);
-  padding: 30px;
+  padding: 20px;
+  height: 100%;
   border-radius: 22px;
 }
-.popup__tags {
-  margin-left: 24px;
+.popup__about--infos {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .popup__cards {
   display: grid;
@@ -524,9 +417,31 @@ hr {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-bottom: 10px;
+}
+.popup__h5 {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--black);
+}
+.popup__portfolio {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.popup__portfolio a {
+  transition: .2s;
+  color: var(--gray_00);
+}
+.popup__portfolio:hover a {
+  text-decoration: underline;
+  color: var(--black);
+  transition: .2s;
 }
 .popup__criador {
   font-weight: 400;
+  font-size: 16px;
   color: var(--gray_00);
 }
 .popup__person {
@@ -538,7 +453,7 @@ hr {
 .redes__sociais {
   display: flex;
   flex-direction: column;
-  margin-top: 10px;
+  margin: 12px 0;
 }
 .redes__sociais a {
   cursor: pointer;
@@ -568,8 +483,8 @@ hr {
   color: var(--gray_00);
   font-weight: 400;
 }
-.popup__vitrine {
-  display: grid;
+.vitrine {
+  display__img: grid;
   grid-template-columns: 1fr 1fr;
   width: 100%;
   min-height: 100px;
@@ -594,19 +509,6 @@ hr {
   .popup__content {
     width: calc(100% - 120px);
   }
-  .layout__text {
-    color: var(--black);
-  }
-  .layout__container {
-    gap: 3px;
-  }
-  .layout {
-    gap: 6px;
-  }
-  .popup__buttons {
-    top: 82px;
-    width: calc(100% - 174px);
-  }
 }
 @media only screen and (max-width: 700px) {
   .popup__footer {
@@ -616,9 +518,6 @@ hr {
   }
   .projectName {
     padding: 0 10px;
-  }
-  .popup__buttons {
-    display: none;
   }
   .popup__content {
     margin: 0;
@@ -647,9 +546,6 @@ hr {
   .projectName {
     opacity: 1;
   }
-  .popup__buttons {
-    width: calc(100% - 500px);
-  }
   filter {
     padding: 2px 15px;
     max-width: max-content;
@@ -659,8 +555,8 @@ hr {
   .popup__header {
     padding: 10px
   }
-  .popup__vitrine {
-    grid-template-columns: 1fr !important;
+  .vitrine {
+    grid-template__img-columns: 1fr !important;
   }
 }
 @media only screen and (max-width: 500px) {

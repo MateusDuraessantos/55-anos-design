@@ -93,7 +93,7 @@ body {
 }
 .g-h1 {
   line-height: 110%;
-  font-size: 80px;
+  font-size: 60px;
   font-weight: 400;
 } 
 /* Botões */
