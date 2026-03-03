@@ -209,10 +209,10 @@ export default {
 }
 .mackenzie__isso {
   line-height: 89%;
-  font-size: 120px;
+  font-size: 100px;
 }
 .mackenzie__p {
-  font-size: 30px;
+  font-size: 22px;
   width: 100%;
   text-align: center;
 }
@@ -286,12 +286,12 @@ export default {
   gap: 40px;
 }
 .gente__text {
-  font-size: 60px;
+  font-size: 50px;
 }
 .gente__gostou {
   position: absolute;
-  top: -30px;
-  font-size: 28px;
+  top: -26px;
+  font-size: 22px;
 }
 .gente__container {
   position: relative;

@@ -1,5 +1,5 @@
 <template>
-  <header class="background__gradient">
+  <header>
     <img class="logo" src="/logo_design_mack_d_55.svg" height="50" width="200" alt="Logo 55 anos curso de design">
 
     <div class="nav__options" id="navMenu" @click="close">
@@ -88,8 +88,8 @@ header {
   height: 80px;
   bottom: -80px;
   backdrop-filter: blur(5px);
-  border-radius: 0 0 50px 50px;
   z-index: 10;
+  background: var(--black);
 }
 .logo {
   object-fit: contain;

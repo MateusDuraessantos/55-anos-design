@@ -28,6 +28,11 @@ export default {
 html {
   scroll-behavior: smooth;
 }
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
 * {
   font-family: "Poppins", sans-serif;
   /* font-family: "Avenir", system-ui, sans-serif; */

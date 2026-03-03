@@ -4,25 +4,40 @@
     <div class="banner__content max__width">
       <div class="banner__col--1">
         <h1 class="banner__h1">O Curso de Bacharelado em Design da FAU-M</h1>
-        <p class="banner__55">55 anos</p>
         <a class="banner__button" :href="linkForms" target="_blank">Participe com a gente</a>
+
+        <div class="banner__redes">
+          <a class="banner__link" :href="linkedin" target="_blank">
+            <img class="banner__rede--img" src="/linkedin.png" width="50" height="50" alt="LinkedIn 55 anos">
+          </a>
+          <a class="banner__link" :href="instagram" target="_blank">
+            <img class="banner__rede--img" src="/instagram.png" width="50" height="50" alt="Instagram 55 anos">
+          </a>
+        </div>
+        
       </div>
 
       <div class="banner__col--2">
-        <img class="banner__logo" width="500" height="500" src="/home/logo_banner.svg" alt="">
+        <img class="banner__logo" width="500" height="500" src="/home/anos_55.svg" alt="55 anos">
+        <img class="banner__logo" width="500" height="500" src="/home/logo_banner.svg" alt="logo de 55 anos do curso de design Mackenzie">
+        <button class="banner__btn" @click="scrollToSection">
+          <img class="banner__arrow" width="40" height="40" src="/arrow_yellow.svg" alt="Seta para baixo">
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { linkForms } from '@/constants/variables.js'
+import { linkForms, linkedin, instagram } from '@/constants/variables.js'
 
 export default {
   name: 'home',
   data() {
     return {
-      linkForms: linkForms
+      linkForms: linkForms,
+      linkedin: linkedin,
+      instagram: instagram,
     }
   },
   
@@ -30,7 +45,14 @@ export default {
   },
   
   methods: {
+    scrollToSection() {
+      const section = document.getElementById('sobre');
+      window.scrollTo({
+        top: section.offsetTop,
+        behavior: 'smooth',
+      })
 
+    }
   }
 }
 
@@ -42,6 +64,8 @@ export default {
   line-height: 114%;
 }
 .banner {
+  display: flex;
+  align-items: center;
   height: 100vh;
   width: 100%;
   background: var(--black);
@@ -51,15 +75,14 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  height: 100%;
-  gap: 120px;
+  gap: 80px;
 }
 h1 {
-  font-size: 80px;
+  font-size: 60px;
   font-weight: 400;
 }
-.banner__55 {
-  font-size: 120px;
+.banner__h1 {
+  font-weight: 300;
 }
 .banner__button {
   display: flex;
@@ -95,25 +118,55 @@ h1 {
   mask-composite: exclude;
   z-index: -1;
 }
+.banner__rede--img {
+  cursor: pointer;
+}
 .banner__col--1 {
   display: flex;
   flex-direction: column;
+  gap: 32px;
 }
 .banner__col--2 {
   display: flex;
+  flex-direction: column;
+  gap: 30px;
   align-items: center;
-  justify-content: center;
+  height: 100%;
+  justify-content: space-between;
 }
 .banner__logo {
   width: 100%;
   object-fit: contain;
   height: max-content;
 }
-@media screen and (max-width: 1200px) {
+.banner__btn {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+.banner__redes {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+.banner__rede--img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+.banner__link {
+  cursor: pointer;
+  transition: .3s;
+}
+.banner__link:hover {
+  opacity: 0.8;
+  transition: .3s;
+}
+@media screen and (max-width: 1000px) {
   .banner {
     border-radius: 0 0 50px 0;
   }
-  .banner__content{
+  .banner__content {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -128,9 +181,6 @@ h1 {
   .banner__col--1 {
     text-align: center;
     gap: 10px;
-  }
-  .banner__55 {
-    font-size: 50px;
   }
   .banner__h1 {
     font-size: 40px;

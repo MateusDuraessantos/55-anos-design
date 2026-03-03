@@ -23,7 +23,7 @@
           <a href="">Ivo Pons</a>
         </div>
       
-        <div class="flex__column">
+        <div class="flex__column flex__column--menu">
           <strong>Menu</strong>
           <router-link to="/" class="flex__column">
             <a class="header__a" @click="scrollToSection('sobre')">Sobre</a>
@@ -65,6 +65,7 @@ export default {
 
 <style scoped>
 footer {
+  position: relative;
   font-size: 16px;
   line-height: 20px;
   height: max-content;
@@ -101,7 +102,7 @@ footer a:hover {
   display: grid;
   align-self: flex-start;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 40px;
+  gap: 60px;
 }
 .footer__grafismo {
   width: 100%;
@@ -109,8 +110,12 @@ footer a:hover {
   object-fit: contain;
 }
 .footer__line {
+  position: absolute;
   height: 5px;
   width: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
 }
 
 @media screen and (max-width: 1000px) {
@@ -118,6 +123,12 @@ footer a:hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+  }
+  .flex__column--menu {
+    display: none;
+  }
+  .footer__text {
+    text-align: center;
   }
 }
 </style>
