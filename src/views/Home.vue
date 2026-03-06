@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <div id="inicio">
       <Banner />
     </div>
@@ -114,7 +115,7 @@
         <p class="linha__text">Ao longo dos anos, nosso curso evoluiu, inovou e formou gerações de profissionais. Esta linha do tempo celebra cada conquista, marco e transformação que construíram nossa história e fortalecem nosso compromisso com o futuro.</p>
       </div>
 
-      <img class="linha__img" src="/linha_do_tempo.jpg" width="1000" height="2000" alt="">
+      <Timeline />
 
     </section>
 
@@ -140,11 +141,13 @@
 
 <script>
 import Banner from '@/components/home/Banner.vue'
+import Timeline from '@/components/home/Timeline.vue'
+
 import { linkForms, linkedin, instagram } from '@/constants/variables.js'
 
 export default {
   name: 'Home',
-  components: { Banner },
+  components: { Banner, Timeline },
   data() {
     return {
       linkForms: linkForms,
@@ -258,11 +261,6 @@ export default {
 }
 .linha__text {
   font-size: 20px;
-}
-.linha__img {
-  width: 100%;
-  object-fit: contain;
-  height: max-content;
 }
 .mackenzie__ctn--arrow {
   width: 100%;
