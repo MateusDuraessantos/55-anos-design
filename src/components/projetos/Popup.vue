@@ -40,7 +40,7 @@
         <!-- Vitrine das imagens -->
 
         <div class="vitrine">
-          <img class="vitrine__img" v-for="img in currentProject.portfolios" :src="`projetos/${img.src}`" :alt="img.alt">
+          <img class="vitrine__img" v-for="img in currentProject.portfolios" :src="`/projetos/${img.src}`" :alt="img.alt" width="800" height="500">
         </div>
 
         <!-- Descrições -->
@@ -56,7 +56,7 @@
               <div class="popup__cards">
                 <div class="popup__card" v-for="userInfos in currentProject.owner">
                   <div class="popup__ctn">
-                    <img class="popup__person" :src="'projetos/' + userInfos.userFoto" width="50" height="50" />
+                    <img class="popup__person" :src="'/projetos/' + userInfos.userFoto" width="50" height="50" />
                     <p class="popup__criador">{{ userInfos.name }}</p>
                   </div>
                   
@@ -75,7 +75,7 @@
                   </div>
 
                   <div class="popup__portfolio">
-                    <img src="/web.svg" alt="">
+                    <img src="/web.svg" width="20" height="20" alt="Ícone da internet">
                     <a :href="userInfos.personalPotfolio" target="_blank">Portfólio pessoal</a>
                   </div>
 
@@ -110,6 +110,7 @@
 
 <script>
 import { projects } from '@/constants/projectsInfos.js'
+import { addHashWhenOpenPopup } from '@/communs/urls.js'
 
 export default {
   name: 'Popup',
@@ -135,9 +136,11 @@ export default {
     })
     
     this.closeOnEscape()
+    addHashWhenOpenPopup(this.currentProject.name)
   },
   beforeUnmount() {
     window.removeEventListener('keydown', this.onEscKeydown)
+    history.replaceState(null, null, window.location.pathname + window.location.search);
   },
   computed: {
     currentProject() {
@@ -516,9 +519,6 @@ hr {
     grid-template-columns: 1fr;
     gap: 10px;
   }
-  .projectName {
-    padding: 0 10px;
-  }
   .popup__content {
     margin: 0;
     width: 100%;
@@ -543,9 +543,6 @@ hr {
     display: flex;
     justify-content: center;
   }
-  .projectName {
-    opacity: 1;
-  }
   filter {
     padding: 2px 15px;
     max-width: max-content;
@@ -554,9 +551,6 @@ hr {
   .popup__about,
   .popup__header {
     padding: 10px
-  }
-  .vitrine {
-    grid-template__img-columns: 1fr !important;
   }
 }
 @media only screen and (max-width: 500px) {

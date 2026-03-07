@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <main>
 
     <div id="inicio">
       <Banner />
@@ -7,7 +7,7 @@
 
     <div class="sobre" id="sobre">
       <section>
-        <img class="sobre__grafismo" src="/grafismo_azul.svg" alt="">
+        <img class="sobre__grafismo" src="/grafismo_azul.svg" height="290" width="140" alt="Grafismos do design 55 anos">
         
         <div class="sobre__width">
           <h2 class="sobre__text" style="color: var(--blue);">O QUÊ</h2>
@@ -25,12 +25,12 @@
           <p>O Curso de Bacharelado em Design da FAU-Mackenzie tem como objetivo formar profissionais com competências amplas e habilidades múltiplas para atuar de forma generalista diante das rápidas transformações da sociedade. Com mais de 50 anos de existência, o curso evoluiu e passou a priorizar a abordagem projetual, incorporando tendências contemporâneas e alinhando-se às necessidades do mercado de trabalho.</p>
         </div>
 
-        <img class="sobre__grafismo" src="/grafismo_rosa.svg" alt="">
+        <img class="sobre__grafismo" src="/grafismo_rosa.svg" height="290" width="140" alt="Grafismos do design 55 anos">
 
       </section>
 
       <section>
-        <img class="sobre__grafismo" src="/grafismo_amarelo.svg" alt="">
+        <img class="sobre__grafismo" src="/grafismo_amarelo.svg" height="290" width="140" alt="Grafismos do design 55 anos">
         
         <div class="sobre__width">
           <h2 class="sobre__text" style="color: var(--yellow);">QUEM</h2>
@@ -122,7 +122,7 @@
     <!--  -->
     <section class="gente max__width" id="participe">
       <div class="gente__col_1">
-        <p class="gente__55">55 DESIGN MACK <img class="gente__arrow" src="/arrow_black.svg" width="30" height="30" alt=""></p>
+        <p class="gente__55">55 DESIGN MACK <img class="gente__arrow" src="/arrow_black.svg" width="30" height="30" alt="Setinha apontando para o lado direito"></p>
         
         <div class="gente__container">
           <p class="gente__gostou">Gostou?</p>
@@ -136,7 +136,7 @@
 
     </section>
 
-  </div>
+  </main>
 </template>
 
 <script>

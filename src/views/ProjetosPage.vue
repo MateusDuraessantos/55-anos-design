@@ -1,5 +1,5 @@
 <template>
-  <div class="body">
+  <main class="body">
 
     <Banner />
 
@@ -14,30 +14,51 @@
     
     <!--  -->
 
-    <div class="container-projetos">
-      <div
-        class="projeto"
-        v-for="(project, index) in limitedItems"
-        :key="index"
-        @click="upPopup(index)"
-      >
-        <img class="projeto_thumb" :src="'projetos/' + project.portfolios[0].src" loading="lazy"
-        :alt="project.portfolios[0].alt">
+    <section class="filters">
+      <div class="filter__year">
+        <p class="filter__p">{{ value[0] }}</p>
+        <el-slider v-model="value" range show-stops :min="1999" :max="2026" />
+        <p class="filter__p">{{ value[1] }}</p>
+      </div>
+      
+      <el-input v-model="input" placeholder="Buscar projeto por nome..." />
 
-        <div class="container_user">
-          <div class="user" v-for="ownersv in project.owner">
-            <img class="user_img" :src="'projetos/' + ownersv.userFoto" />
-            <p class="user_name">{{ ownersv.name }}</p>
+      <p class="filter__summary">
+        {{ projectsEncontraddos }} projetos encontrados
+      </p>
+    </section>
+
+    <div class="container-projetos">
+      <section v-for="keyValue in separarProjetosPorAno.keys" >
+        <h1 class="projeto__h1">{{ keyValue }}</h1>
+        
+        <div class="projeto__grid">
+          <div
+            class="projeto"
+            v-for="(obj, index) in separarProjetosPorAno.projects[keyValue]"
+            :key="index"
+            @click="upPopup(index)"
+          >
+            <img class="projeto_thumb" :src="'/projetos/' + obj.portfolios[0].src" loading="lazy" :alt="obj.portfolios[0].alt" width="400" height="300">
+            <div class="container_user">
+              <div class="user" v-for="owners in obj.owner">
+                <img class="user_img" :src="'/projetos/' + owners.userFoto" width="40" height="40" :alt="`Foto do autor: ${owners.name}`" />
+                <p class="user_name">{{ owners.name }}</p>
+              </div>
+            </div>
+            <p class="project__name">{{ obj.name }}</p>
           </div>
         </div>
-        <p class="projectName">{{ project.name }}</p>
-      </div>
+
+      </section>
+
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
 import { projects } from '@/constants/projectsInfos.js'
+import { verififyHashToOpenPopup } from '@/communs/urls.js'
 import Popup from '@/components/projetos/Popup.vue'
 import Banner from '@/components/projetos/Banner.vue'
 
@@ -58,17 +79,46 @@ export default {
       passImagens: true,
       showPopup: false,
       projectsIndex: 0,
+      input: '',
+      value: [0, 2026],
     }
   },
   computed: {
-    limitedItems() {
-      return this.projects.slice(0, this.maxItems);
-    }
+    projetoMaisAntigo() {
+      return 1000
+    },
+    projetosFilter() {
+      return this.projects.filter(obj => {
+        return this.input === '' ? true : this.formatStr(obj.name).includes(this.formatStr(this.input))
+      })
+    },
+    projetosFilterByYear() {
+      return this.projetosFilter.filter(obj => obj.data >= this.value[0] && obj.data <= this.value[1])
+    },
+    projectsEncontraddos() {
+      return this.projetosFilterByYear.length
+    },
+    separarProjetosPorAno() {
+      const projects = this.projetosFilterByYear.reduce((acc, next) => {
+        if (!acc.hasOwnProperty(next.data)) acc[next.data] = []
+        acc[next.data].push(next)
+        return acc
+      }, {})
+      return { keys: Object.keys(projects), projects }
+    },
   },
   mounted() {
     this.scrolltoTop()
+    
+    verififyHashToOpenPopup((index) => {
+      this.projectsIndex = index
+      this.showPopup = true
+    })
   },
   methods: {
+    formatStr(string) {
+      return string.toLowerCase()
+    },
     upPopup(index) {
       this.projectsIndex = index
       this.showPopup = true
@@ -105,7 +155,6 @@ export default {
   from { opacity: 0 }
   to { opacity: 1 }
 }
-
 :root {
   --gap-img: 10px
 }
@@ -132,9 +181,6 @@ export default {
 </style>
 
 <style>
-.aulas__title {
-  border-color: #CC141D;
-}
 .body {
   display: flex;
   flex-direction: column;
@@ -142,33 +188,47 @@ export default {
   margin-top: 140px;
   width: calc(100% - 40px);
 }
-.imagens_camp {
-  background: black;
-  border-radius: 8px;
-  padding: 40px;
+/* filters */
+.filters {
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  top: 80px;
+  background: white;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 50px;
+  z-index: 6;
 }
-/* tags Expor */
-.cont_inputs__cadastro {
-  position: relative;
-  background: black;
-  padding: 40px;
-  border-radius: 8px;
+.filter__year {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
 }
+.filter__p {
+  color: var(--gray_00);
+  font-weight: 500;
+}
+/* projeto */
 .projeto {
   position: relative;
   display: inline-block;
-  margin-bottom: 20px;
   width: 100%;
+  height: max-content;
   cursor: pointer;
-  height: 300px;
-  border-radius: 8px;
-  overflow: hidden;
+}
+.projeto__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
 }
 .container-projetos {
-  display: grid;
-  column-gap: 20px;
-  color: white;
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  gap: 100px;
   margin: auto;
   padding-bottom: 100px;
 }
@@ -178,14 +238,19 @@ export default {
   width: 100%;
   height: 100%;
   max-height: 520px;
+  border-radius: 6px;
   transition: .5s;
+}
+.projeto__h1 {
+  color: var(--black);
+  font-size: 30px;
+  text-align: start;
 }
 .container_user {
   position: absolute;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7));
   width: 100%;
   padding: 10px 10px 0 0;
   border-radius: 8px 8px 0 0;
@@ -213,7 +278,6 @@ export default {
   align-items: center;
 }
 .user_img {
-  box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.6);
   object-fit: cover;
 }
 .user_name {
@@ -225,90 +289,40 @@ export default {
   opacity: 0;
   transition: .2s;
   font-weight: 400;
-  text-shadow: 2px 3px 10px rgba(0, 0, 0, 1);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
+  color: white;
 }
 .user:hover .user_name {
   transition: .2s;
   opacity: 1;
 }
-.projectName {
-  position: absolute;
-  bottom: 0;
-  opacity: 0;
+.project__name {
   display: flex;
   align-items: center;
   width: 100%;
-  height: 56px;
-  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
-  transition: .2s;
-  padding: 0 20px;
-  color: rgb(211, 211, 211);
+  overflow: hidden;
+  color: var(--black);
   font-weight: 400;
+  text-wrap: nowrap;
 }
-.projeto:hover .projectName {
-  transition: .2s;
-  opacity: 1;
-}
-@media only screen and (min-width:2001px) {
-  .container-projetos {
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  }
-}
-
-@media only screen and (max-width:2000px) {
-  .container-projetos {
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  }
-}
-
-@media only screen and (max-width: 1800px) {
-  .container-projetos {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-  }
-}
-
-@media only screen and (max-width: 1450px) {
-  .container-projetos {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-}
-
 @media only screen and (max-width: 1000px) {
   .body {
     width: calc(100% - 26px);
   }
+  .projeto__grid {
+    gap: 1px;
+  }
   .container-projetos {
     gap: 12px;
   }
-  .projeto {
-    margin: 0;
-    height: 30vw;
-  }
-}
-@media only screen and (max-width: 700px) {
-  .container_user {
-    display: none;
-  }
-  h1 {
-    margin: 0;
-    text-align: center;
-    font-size: 60px;
-  }
-  .projeto {
-    margin: 0;
+  .projeto_thumb {
     border-radius: 0;
-    height: 44vw;
   }
-  .projectName {
-    display: none;
-    padding: 0 10px;
+  .project__name {
+    font-size: 14px;
   }
-  .container-projetos {
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 1px;
-  }
-  .body {
-    width: 100%;
+  .projeto {
+    margin: 0;
   }
 }
 </style>

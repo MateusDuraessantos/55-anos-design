@@ -7,10 +7,10 @@
         <router-link to="/" class="dropdown-link">
           <aconra>Início <arrow>❯</arrow></aconra>
           <nav class="subMenu" id="subMenu">
-            <a class="header__a" @click="scrollToSection('sobre')">Sobre</a>
-            <a class="header__a" @click="scrollToSection('livro-55-anos')">Livro 55 anos</a>
-            <a class="header__a" @click="scrollToSection('linha-do-tempo')">Linha do tempo</a>
-            <a class="header__a" @click="scrollToSection('participe')">Participe</a>
+            <button class="header__a" @click="scrollToSection('sobre')">Sobre</button>
+            <button class="header__a" @click="scrollToSection('livro-55-anos')">Livro 55 anos</button>
+            <button class="header__a" @click="scrollToSection('linha-do-tempo')">Linha do tempo</button>
+            <button class="header__a" @click="scrollToSection('participe')">Participe</button>
           </nav>
         </router-link>
         <router-link class="dropdown-link" to="projetos">Projetos</router-link>
@@ -211,7 +211,6 @@ nav {
 }
 @media screen and (max-width: 1000px) {
   header {
-    border-radius: 0 0 30px 30px;
     padding: 0 20px;
   }
   .subMenu {
