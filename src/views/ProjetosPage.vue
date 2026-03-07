@@ -61,6 +61,7 @@ import { projects } from '@/constants/projectsInfos.js'
 import { verififyHashToOpenPopup } from '@/communs/urls.js'
 import Popup from '@/components/projetos/Popup.vue'
 import Banner from '@/components/projetos/Banner.vue'
+import { tabName } from '@/constants/variables.js'
 
 export default {
   name: 'ProjetosPage',
@@ -109,11 +110,14 @@ export default {
   },
   mounted() {
     this.scrolltoTop()
-    
+
     verififyHashToOpenPopup((index) => {
       this.projectsIndex = index
       this.showPopup = true
     })
+
+    document.title = tabName + ' - Projetos'
+
   },
   methods: {
     formatStr(string) {
@@ -209,7 +213,9 @@ export default {
 }
 .filter__p {
   color: var(--gray_00);
+  width: 44px;
   font-weight: 500;
+  overflow: hidden;
 }
 /* projeto */
 .projeto {

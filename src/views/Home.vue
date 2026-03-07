@@ -142,8 +142,7 @@
 <script>
 import Banner from '@/components/home/Banner.vue'
 import Timeline from '@/components/home/Timeline.vue'
-
-import { linkForms, linkedin, instagram } from '@/constants/variables.js'
+import { linkForms, linkedin, instagram, tabName } from '@/constants/variables.js'
 
 export default {
   name: 'Home',
@@ -155,13 +154,9 @@ export default {
       instagram: instagram,
     }
   },
-  
   mounted() {
+    document.title = tabName
   },
-  
-  methods: {
-
-  }
 }
 </script>
 
