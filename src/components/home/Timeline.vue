@@ -1,11 +1,8 @@
 <template>
   <div class="line">
     
-    <div :class="`
-        line__time
-        ${index === 0 ? 'line__bubble' : ''}
-        ${index % 2 == 0 ? 'line__left' : 'line__right'}
-      `"
+    <div
+      :class="`line__time ${index === 0 ? 'line__bubble' : ''} ${index % 2 == 0 ? 'line__left' : 'line__right'}`"
       v-for="(obj, index) in timeData"
     >
       
@@ -154,7 +151,15 @@ export default {
 
 <style>
 :root {
-  --timeline-color: var(--orange)
+  --timeline-color: var(--orange);
+  --padding-text: 60px;
+  --margin-absolute: -46px;
+  --margin-mobile: 30px;
+}
+@media screen and (max-width: 1000px) {
+  :root {
+    --padding-text: 20px;
+  }
 }
 </style>
 <style scoped>
@@ -167,14 +172,12 @@ export default {
   align-items: center;
   position: relative;
   width: 100%;
-  display: flex;
-  padding: 100px 0;
+  overflow: hidden;
+  padding: 200px 0 100px 0;
 }
 .line::before {
   content: '';
   position: absolute;
-  left: 0;
-  right: 0;
   margin: auto;
   display: block;
   width: 10px;
@@ -194,10 +197,11 @@ export default {
   content: '';
   position: absolute;
   left: 20px;
-  top: -122%;
+  top: -154px;
   padding: 200px;
   border-radius: 50%;
   background: var(--timeline-color);
+  opacity: 0.4;
 }
 .line__ano {
   position: relative;
@@ -213,10 +217,10 @@ export default {
   background: var(--gray_01);
 }
 .line__left .line__ano::before {
-  left: -46px;
+  left: var(--margin-absolute);
 }
 .line__right .line__ano::before {
-  right: -46px;
+  right: var(--margin-absolute);
 }
 .line__text {
   font-size: 14px;
@@ -247,10 +251,41 @@ export default {
   transition: .3s;
 }
 .line__left .line__container {
-  padding-left: 60px;
+  padding-left: var(--padding-text);
   z-index: 1;
+  padding-right: var(--padding-text);
 }
 .line__right .line__container {
-  padding-right: 60px;
+  padding-right: var(--padding-text);
+}
+@media screen and (max-width: 1000px) {
+  .line {
+    padding: 0;
+  }
+  .line::before {
+    width: 6px;
+  }
+  .line__bubble::before {
+    display: none;
+  }
+  .line__container {
+    min-width: 48vw;
+  }
+  .line__circle {
+    padding: 10px;
+    left: -12px;
+  }
+  .line__ano {
+    font-size: 18px;
+  }
+  .line__circle {
+    top: 5px;
+  }
+  .line__left .line__ano {
+    margin-left: var(--margin-mobile) !important;
+  }
+  .line__right .line__ano {
+    margin-right: var(--margin-mobile) !important;
+  }
 }
 </style>

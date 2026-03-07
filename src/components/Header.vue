@@ -89,7 +89,7 @@ header {
   bottom: -80px;
   backdrop-filter: blur(5px);
   z-index: 10;
-  background: var(--black);
+  background: #202020;
 }
 .logo {
   object-fit: contain;

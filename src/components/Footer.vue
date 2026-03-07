@@ -121,7 +121,7 @@ footer {
 }
 .footer__line {
   position: absolute;
-  height: 5px;
+  height: 10px;
   width: 100%;
   bottom: 0;
   left: 0;

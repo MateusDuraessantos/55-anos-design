@@ -61,42 +61,44 @@
 
 
     <!-- Livro 55 anos -->
-    <el-carousel height="500px" id="livro-55-anos" :interval="5000">
-      <el-carousel-item class="carrossel-1">
+    <el-carousel height="500px" id="livro-55-anos" :autoplay="false" trigger="click">
+      <el-carousel-item class="carrossel__ctn carrossel--black">
         <div class="max__width">
           <h3>Título do livro</h3>
           <p>
             vpetências amplas e habilidades múltiplas para atuar de forma generalista diante das rápidas transformações da sociedade. Com mais de 50 anos de existência, o curso evoluiu e passou a priorizar a abordagem projetual, incorporando tendências contemporâneas e alinhando-se às necessidades do mercado de trabalho.
           </p>
-          <button class="">Alguma ação</button>
+          <button class="button button--white">Alguma ação</button>
         </div>
     
       </el-carousel-item>
 
       <el-carousel-item>
-        <div class="max__width">
-          <p>
-            Ao longo dos anos, nosso curso construiu uma trajetória marcada por inovação, dedicação e transformação. Cada etapa dessa linha do tempo representa não apenas conquistas acadêmicas, mas histórias de alunos, professores e projetos que ajudaram a moldar nossa identidade. Da sua criação aos dias atuais, acompanhamos a evolução das metodologias, das estruturas e das oportunidades oferecidas, sempre com o compromisso de formar profissionais preparados para os desafios do futuro. Celebrar este aniversário é reconhecer o caminho percorrido e renovar o propósito de continuar crescendo, aprendendo e inspirando novas gerações.
-          </p>
+        <div class="carrossel__ctn carrossel--gray">
+          <div class="max__width">
+            <p>
+              Ao longo dos anos, nosso curso construiu uma trajetória marcada por inovação, dedicação e transformação. Cada etapa dessa linha do tempo representa não apenas conquistas acadêmicas, mas histórias de alunos, professores e projetos que ajudaram a moldar nossa identidade. Da sua criação aos dias atuais, acompanhamos a evolução das metodologias, das estruturas e das oportunidades oferecidas, sempre com o compromisso de formar profissionais preparados para os desafios do futuro. Celebrar este aniversário é reconhecer o caminho percorrido e renovar o propósito de continuar crescendo, aprendendo e inspirando novas gerações.
+            </p>
+          </div>
         </div>
       </el-carousel-item>
 
     </el-carousel>
 
     <!--  -->
-    <el-carousel height="600px" :interval="4000">
+    <el-carousel height="600px" :autoplay="false" trigger="click">
       
-      <el-carousel-item class="carrossel-3">
+      <el-carousel-item class="carrossel__ctn carrossel--orange">
           <div class="max__width">
             <h3>Onde encontrar?</h3>
             <p>
               Petências amplas e habilidades múltiplas para atuar de forma generalista diante das rápidas transformações da sociedade. Com mais de 50 anos de existência, o curso evoluiu e passou a priorizar a abordagem projetual, incorp
             </p>
-            <button class="">Alguma ação</button>
+            <button class="button button--white">Alguma ação</button>
           </div>
       </el-carousel-item>
 
-      <el-carousel-item class="carrossel-4">
+      <el-carousel-item class="carrossel__ctn carrossel--purple">
         <div class="max__width">
           <h1>Lançamentos</h1>
           <p>Petências amplas e habilidades múltiplas para atuar de forma generalista diante das rápidas transformações da sociedade. Com mais de 50 anos de existência, o curso evoluiu e passou a priorizar a abordagem projetual, incorp</p>
@@ -126,12 +128,13 @@
         
         <div class="gente__container">
           <p class="gente__gostou">Gostou?</p>
-          <a :href="linkForms" target="_blank" class="gente__text">Participe com a gente!</a>
+          <a class="gente__text" :href="linkForms" target="_blank">Participe com a gente!</a>
         </div>
       </div>
 
-      <a :href="linkForms" target="_blank" class="gente__button background__gradient">
-        <img src="/arrow.svg" width="30" height="30" alt="Acessar formulário de inscrição">
+      <a class="gente__button background__gradient" :href="linkForms" target="_blank">
+        <p class="gente__p">Clique aqui</p>
+        <img class="gente__img" src="/arrow.svg" width="30" height="30" alt="Acessar formulário de inscrição">
       </a>
 
     </section>
@@ -161,6 +164,30 @@ export default {
 </script>
 
 <style scoped>
+.button {
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: 500;
+  width: max-content;
+  transition: .2s;
+}
+.button--white {
+  background: white;
+  color: var(--black);
+}
+.button--white:hover {
+  background: rgb(222, 222, 222);
+  transition: .2s;
+}
+.button--white {
+  background: white;
+  color: var(--black);
+}
+.button--white:hover {
+  background: rgb(222, 222, 222);
+  transition: .2s;
+}
 /* sobre */
 .sobre {
   display: flex;
@@ -171,11 +198,14 @@ export default {
 .sobre__grafismo {
   position: absolute;
   width: min(14vw, 160px);
+  height: max-content;
 }
 .sobre__width {
+  position: relative;
   max-width: 1000px;
   width: calc(100% - 500px);
   margin: auto;
+  z-index: 2;
 }
 .sobre__text {
   text-wrap: nowrap;
@@ -199,7 +229,7 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 80px;
-  height: 100vh;
+  padding: 100px 0;
 }
 .mackenzie__frase {
   display: flex;
@@ -208,6 +238,7 @@ export default {
 .mackenzie__isso {
   line-height: 89%;
   font-size: 100px;
+  color: var(--black);
 }
 .mackenzie__p {
   font-size: 22px;
@@ -220,24 +251,31 @@ export default {
   margin-top: 10px;
 }
 /* carrossel */
-.carrossel-1, .carrossel-2 {
+.carrossel__ctn {
   display: flex;
   align-items: center;
+  height: 100%;
+  width: 100%;
 }
-.carrossel-1 {
+.carrossel__ctn .max__width {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.carrossel--black {
   background-color: var(--black);
   color: white;
 }
-.carrossel-2 {
-
+.carrossel--gray {
+  background: gray;
 }
-.carrossel-3 {
+.carrossel--orange {
   background-color: var(--orange);
 }
-.carrossel-4 {
+.carrossel--purple {
   background-color: var(--purple);
 }
-.carrossel-3, .carrossel-4 {
+.carrossel--orange, .carrossel--purple {
   display: flex;
   flex-direction: column;
   gap: 40px;
@@ -264,6 +302,12 @@ export default {
 }
 .mackenzie__arrow {
   margin: auto;
+  animation: 2s mackenzie__arrow infinite;
+}
+@keyframes mackenzie__arrow {
+  0% { transform: translateY(0) }
+  50% { transform: translateY(10px) }
+  100% { transform: translateY(0) }
 }
 /* gente */
 .gente {
@@ -326,11 +370,17 @@ export default {
 }
 .gente__button {
   display: flex;
+  align-items: center;
+  gap: 20px;
   padding: 30px;
-  border-radius: 50%;
+  border-radius: 50px;
+  color: white;
   transition: .3s;
   border: none;
   cursor: pointer;
+}
+.gente__p {
+  display: none;
 }
 .gente__button:hover {
   box-shadow: 6px 10px 24px rgba(0, 0, 0, 0.2);
@@ -367,6 +417,22 @@ export default {
   .gente {
     gap: 40px;
     height: max-content;
+  }
+  .gente__text {
+    font-size: 30px;
+  }
+  .gente__gostou {
+    font-size: 16px;
+  }
+  .gente__button {
+    padding: 20px;
+  }
+  .gente__p {
+    display: block;
+  }
+  .gente__img {
+    width: 20px;
+    height: 20px;
   }
 }
 

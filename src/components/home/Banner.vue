@@ -70,6 +70,7 @@ export default {
   width: 100%;
   background: var(--black);
   border-radius: 0 0 100px 0;
+  padding-top: 80px;
 }
 .banner__content {
   display: grid;
@@ -164,7 +165,7 @@ h1 {
 }
 @media screen and (max-width: 1000px) {
   .banner {
-    border-radius: 0 0 50px 0;
+    border-radius: 0 0 30px 0;
   }
   .banner__content {
     display: flex;
@@ -175,15 +176,24 @@ h1 {
   .banner__logo {
     width: calc(100% - 100px);
   }
+  .banner__col--2 {
+    gap: 16px;
+  }
   h1 {
     font-size: 10vw;
   }
   .banner__col--1 {
     text-align: center;
-    gap: 10px;
+    gap: 20px;
   }
   .banner__h1 {
     font-size: 40px;
+  }
+  .banner__button {
+    margin: auto;
+  }
+  .banner__redes {
+    justify-content: center;
   }
 }
 
