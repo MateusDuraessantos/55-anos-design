@@ -223,12 +223,12 @@ export default {
   flex-direction: column;
   max-width: 100%;
   gap: 2px;
-  height: 30vw;
+  height: 15vw;
   cursor: pointer;
 }
 .projeto__grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   gap: 12px;
 }
 .container-projetos {
@@ -313,7 +313,23 @@ export default {
   font-weight: 400;
   text-wrap: wrap;
 }
+@media only screen and (max-width: 1500px) {
+  .projeto__grid {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .projeto__grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .projeto {
+    height: 20vw;
+  }
+}
 @media only screen and (max-width: 1000px) {
+  .filter__summary {
+    display: none;
+  }
   .body {
     width: 100%;
     margin-top: 100px;
