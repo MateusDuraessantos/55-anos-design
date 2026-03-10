@@ -40,7 +40,7 @@ export default {
     font-size: 30px;
   }
   .banner__width {
-    width: 100%;
+    width: calc(100% - 20px);
   }
   .banner__text {
     font-size: 16px;

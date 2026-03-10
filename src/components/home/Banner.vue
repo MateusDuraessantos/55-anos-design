@@ -67,6 +67,7 @@ export default {
   display: flex;
   align-items: center;
   height: 100vh;
+  min-height: 775px;
   width: 100%;
   background: var(--black);
   border-radius: 0 0 100px 0;

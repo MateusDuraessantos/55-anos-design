@@ -261,7 +261,7 @@ hr {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: overlay;
+  overflow: auto;
   height: 100vh;
   width: 100vw;
   background-color: rgba(0, 0, 0, 0.8);
@@ -388,6 +388,7 @@ hr {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 20px;
+  overflow: hidden;
   margin-top: 30px;
 }
 .popup__about {
@@ -536,8 +537,8 @@ hr {
 }
 @media only screen and (max-width: 700px) {
   .popup__footer {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 10px;
   }
   .popup__content {
@@ -555,7 +556,8 @@ hr {
     grid-template-columns: 1fr;
   }
   .popup__cards {
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
   }
   .popup {
     display: flex;
