@@ -332,6 +332,7 @@ export default {
     border-radius: 0;
   }
   .project__name {
+    display: none;
     font-size: 14px;
     height: 20px;
   }
