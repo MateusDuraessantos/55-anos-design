@@ -6,7 +6,7 @@ export const verififyHashToOpenPopup = (callback) => {
   if (!hash) return // Se não tiver hash, não continua
 
   const selectedProject = projects.findIndex(obj => {
-    const elem = obj.name
+    const elem = obj.name_project
     return elem !== '' && formatText(elem) === hash
   })
 

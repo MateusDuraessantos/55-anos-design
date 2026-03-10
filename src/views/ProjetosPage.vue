@@ -29,15 +29,14 @@
     </section>
 
     <div class="container-projetos">
-      <section v-for="keyValue in separarProjetosPorAno.keys" >
+      <section v-for="(keyValue, index) in separarProjetosPorAno.keys" >
         <h1 class="projeto__h1">{{ keyValue }}</h1>
-        
         <div class="projeto__grid">
           <div
             class="projeto"
-            v-for="(obj, index) in separarProjetosPorAno.projects[keyValue]"
+            v-for="obj in separarProjetosPorAno.projects[keyValue]"
             :key="index"
-            @click="upPopup(index)"
+            @click="upPopup(obj)"
           >
             <img class="projeto_thumb" :src="'/projetos/' + obj.portfolios[0].src" loading="lazy" :alt="obj.portfolios[0].alt" width="400" height="300">
             <div class="container_user">
@@ -46,7 +45,7 @@
                 <p class="user_name">{{ owners.name }}</p>
               </div>
             </div>
-            <p class="project__name">{{ obj.name }}</p>
+            <p class="project__name">{{ obj.name_project }}</p>
           </div>
         </div>
 
@@ -90,19 +89,19 @@ export default {
     },
     projetosFilter() {
       return this.projects.filter(obj => {
-        return this.input === '' ? true : this.formatStr(obj.name).includes(this.formatStr(this.input))
+        return this.input === '' ? true : this.formatStr(obj.name_project).includes(this.formatStr(this.input))
       })
     },
     projetosFilterByYear() {
-      return this.projetosFilter.filter(obj => obj.data >= this.value[0] && obj.data <= this.value[1])
+      return this.projetosFilter.filter(obj => obj.data_project >= this.value[0] && obj.data_project <= this.value[1])
     },
     projectsEncontraddos() {
       return this.projetosFilterByYear.length
     },
     separarProjetosPorAno() {
       const projects = this.projetosFilterByYear.reduce((acc, next) => {
-        if (!acc.hasOwnProperty(next.data)) acc[next.data] = []
-        acc[next.data].push(next)
+        if (!acc.hasOwnProperty(next.data_project)) acc[next.data_project] = []
+        acc[next.data_project].push(next)
         return acc
       }, {})
       return { keys: Object.keys(projects), projects }
@@ -123,8 +122,8 @@ export default {
     formatStr(string) {
       return string.toLowerCase()
     },
-    upPopup(index) {
-      this.projectsIndex = index
+    upPopup(obj) {
+      this.projectsIndex = this.projects.findIndex(elem => elem.name_project === obj.name_project)
       this.showPopup = true
     },
     scrolltoTop() {
@@ -213,22 +212,24 @@ export default {
 }
 .filter__p {
   color: var(--gray_00);
-  width: 44px;
+  min-width: 44px;
   font-weight: 500;
   overflow: hidden;
 }
 /* projeto */
 .projeto {
   position: relative;
-  display: inline-block;
-  width: 100%;
-  height: max-content;
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  gap: 2px;
+  height: 30vw;
   cursor: pointer;
 }
 .projeto__grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 20px;
+  gap: 12px;
 }
 .container-projetos {
   display: flex;
@@ -242,7 +243,8 @@ export default {
   cursor: pointer;
   object-fit: cover;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
+  height: calc(100% - 24px);
   max-height: 520px;
   border-radius: 6px;
   transition: .5s;
@@ -303,32 +305,39 @@ export default {
   opacity: 1;
 }
 .project__name {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  overflow: hidden;
+  max-width: 100%;
+  font-size: 14px;
+  height: max-content;
+  line-height: 20px;
   color: var(--black);
   font-weight: 400;
-  text-wrap: nowrap;
+  text-wrap: wrap;
 }
 @media only screen and (max-width: 1000px) {
   .body {
-    width: calc(100% - 26px);
+    width: 100%;
+    margin-top: 100px;
+  }
+  .projeto__h1 {
+    padding: 0 10px;
+    margin: auto;
   }
   .projeto__grid {
     gap: 1px;
   }
   .container-projetos {
-    gap: 12px;
+    gap: 40px;
   }
   .projeto_thumb {
     border-radius: 0;
   }
   .project__name {
     font-size: 14px;
+    height: 20px;
   }
   .projeto {
     margin: 0;
+    height: 40vw;
   }
 }
 </style>

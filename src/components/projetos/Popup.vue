@@ -28,10 +28,10 @@
 
         <div class="popup__header">
           <span>
-            <p class="font-light">Projeto:</p>
+            <p class="font-light">Projeto</p>
             <div class="popup__title">
               <h2 class="popup__h2">
-                {{ currentProject.name }}
+                {{ currentProject.name_project }}
               </h2>
             </div>
           </span>
@@ -46,9 +46,7 @@
         <!-- Descrições -->
 
         <section class="popup__description">
-          <div class="popup__text">
-            <p v-html="currentProject.description"></p>
-
+          <div class="popup__text" v-html="currentProject.description">
           </div>
           <div class="popup__footer">
             <div class="popup__about">
@@ -56,12 +54,15 @@
               <div class="popup__cards">
                 <div class="popup__card" v-for="userInfos in currentProject.owner">
                   <div class="popup__ctn">
-                    <img class="popup__person" :src="'/projetos/' + userInfos.userFoto" width="50" height="50" />
+                    <div class="popup__photo">
+                      <img class="popup__person" :src="'/projetos/' + userInfos.userFoto" width="50" height="50" />
+                      <img class="popup__person--hover" :src="'/projetos/' + userInfos.userFoto" width="50" height="50" />
+                    </div>
                     <p class="popup__criador">{{ userInfos.name }}</p>
                   </div>
                   
                   <p class="popup__criador">{{ userInfos.email }}</p>
-                  <p class="popup__text--formatura">Data de formatura: {{ userInfos.dataFormatura }}</p>
+                  <p class="popup__text--formatura" v-if="userInfos.dataFormatura">Data de formatura: {{ userInfos.dataFormatura }}</p>
 
                   <div class="redes__sociais">
                     <a
@@ -74,7 +75,7 @@
                     
                   </div>
 
-                  <div class="popup__portfolio">
+                  <div class="popup__portfolio" v-if="userInfos.personalPotfolio">
                     <img src="/web.svg" width="20" height="20" alt="Ícone da internet">
                     <a :href="userInfos.personalPotfolio" target="_blank">Portfólio pessoal</a>
                   </div>
@@ -97,8 +98,8 @@
                 </span>
                 
               </div>
-              <span v-if="currentProject.data">
-                <p class="data_publi">Publicação: {{ currentProject.data }}</p>
+              <span v-if="currentProject.data_project">
+                <p class="data_publi">Publicação: {{ currentProject.data_project }}</p>
               </span>
             </div>
           </div>
@@ -136,11 +137,12 @@ export default {
     })
     
     this.closeOnEscape()
-    addHashWhenOpenPopup(this.currentProject.name)
+    addHashWhenOpenPopup(this.currentProject.name_project)
   },
   beforeUnmount() {
     window.removeEventListener('keydown', this.onEscKeydown)
     history.replaceState(null, null, window.location.pathname + window.location.search);
+    this.bodyScroll(false)
   },
   computed: {
     currentProject() {
@@ -261,16 +263,15 @@ hr {
   align-items: center;
   overflow: overlay;
   height: 100vh;
-  width: 100%;
+  width: 100vw;
   background-color: rgba(0, 0, 0, 0.8);
   cursor: pointer;
 }
 .popup__content {
-  width: 80%;
   position: relative;
   background: var(--white_00);
   margin-bottom: 60px;
-  width: calc(100% - 200px);
+  width: calc(100% - 230px);
   border-radius: 25px;
   cursor: initial;
 }
@@ -294,7 +295,7 @@ hr {
   display: flex;
   justify-content: space-between;
   gap: 8px;
-  padding: 40px;
+  padding: 20px;
 }
 .popup__description {
   padding: 20px
@@ -365,9 +366,9 @@ hr {
 /* Descriçoes' */
 .popup__text {
   display: flex;
-  align-items: center;
-  margin: 20px 0 60px 0;
+  flex-direction: column;
   font-weight: 400;
+  gap: 20px;
 }
 .popup__text--formatura {
   font-size: 16px;
@@ -380,7 +381,8 @@ hr {
 }
 .popup__h2 {
   font-weight: 500;
-  font-size: 32px;
+  font-size: 22px;
+  line-height: 36px;
 }
 .popup__footer {
   display: grid;
@@ -446,12 +448,39 @@ hr {
   font-weight: 400;
   font-size: 16px;
   color: var(--gray_00);
+  line-height: 20px;
 }
 .popup__person {
   width: 50px;
   height: 50px;
+  cursor: pointer;
   object-fit: cover;
   border-radius: 50%;
+}
+.popup__photo {
+  position: relative;
+}
+.popup__photo:hover .popup__person--hover {
+  transition: .2s;
+  transition-delay: .5s;
+  opacity: 1;
+}
+.popup__person--hover {
+  position: absolute;
+  pointer-events: none;
+  bottom: -20px;
+  left: calc(100% + 10px);
+  padding: 10px;
+  background: white;
+  width: 340px;
+  height: 340px;
+  opacity: 0;
+  transition: .2s;
+  border-radius: 10px;
+  -o-object-fit: cover;
+  object-fit: cover;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+  z-index: 2;
 }
 .redes__sociais {
   display: flex;
@@ -487,19 +516,11 @@ hr {
   font-weight: 400;
 }
 .vitrine {
-  display__img: grid;
   grid-template-columns: 1fr 1fr;
   width: 100%;
   min-height: 100px;
   margin: auto;
   gap: var(--gap-img);
-}
-@media only screen and (max-width: 1980px) {
-  .popup__text {
-    display: flex;
-    flex-direction: column;
-    gap: 38px;
-  }
 }
 @media only screen and (max-width: 1000px) {
   .popup__next--btn,
@@ -532,9 +553,6 @@ hr {
   }
   #grid {
     grid-template-columns: 1fr;
-  }
-  .popup__text {
-    column-count: 1;
   }
   .popup__cards {
     grid-template-columns: 1fr 1fr;

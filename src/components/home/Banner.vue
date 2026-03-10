@@ -166,7 +166,7 @@ h1 {
 @media screen and (max-width: 1000px) {
   .banner {
     border-radius: 0 0 30px 0;
-    height: calc(100vh - 24px);
+    height: calc(100vh - 40px);
   }
   .banner__content {
     display: flex;
